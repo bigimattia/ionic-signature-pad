@@ -1,6 +1,6 @@
 import { Component,Input, OnInit,ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {SignaturePad} from 'angular2-signaturepad/signature-pad';
+import {SignaturePad} from 'angular2-signaturepad';
 
 const HTML_TEMPLATE = `
 <ion-row>
