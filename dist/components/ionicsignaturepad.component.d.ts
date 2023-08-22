@@ -1,6 +1,6 @@
-import { OnInit } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
-import { SignaturePad } from 'angular2-signaturepad/signature-pad';
+import { OnInit } from "@angular/core";
+import { ControlValueAccessor } from "@angular/forms";
+import { SignaturePad } from "angular2-signaturepad";
 export declare class IonicsignaturepadComponent implements OnInit, ControlValueAccessor {
     signaturePad: SignaturePad;
     signaturePadOptions: any;
