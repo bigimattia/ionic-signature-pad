@@ -1,6 +1,6 @@
-import { Component,Input, OnInit,ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {SignaturePad} from 'angular2-signaturepad';
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { SignaturePad } from "angular2-signaturepad";
 
 const HTML_TEMPLATE = `
 <ion-row>
@@ -11,100 +11,94 @@ const HTML_TEMPLATE = `
 <signature-pad [options]="signaturePadOptions" id="signatureCanvas" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>`;
 
 @Component({
-	selector: 'ion-signaturepad',
-	template: HTML_TEMPLATE,
-	providers: [{
-		provide: NG_VALUE_ACCESSOR,
-		useExisting: IonicsignaturepadComponent,
-		multi: true
-	}]
+  selector: "ion-signaturepad",
+  template: HTML_TEMPLATE,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: IonicsignaturepadComponent,
+      multi: true,
+    },
+  ],
 })
-export class IonicsignaturepadComponent implements OnInit,ControlValueAccessor {
+export class IonicsignaturepadComponent
+  implements OnInit, ControlValueAccessor
+{
+  @ViewChild(SignaturePad, { static: false }) public signaturePad: SignaturePad;
 
-	@ViewChild(SignaturePad) public signaturePad : SignaturePad;
+  public signaturePadOptions: any = {};
+  public signatureImage: string;
 
-	public signaturePadOptions : any = {};
-	public signatureImage : string;
+  constructor() {
+    this.signaturePadOptions = {
+      minWidth: 2,
+      canvasWidth: 800,
+      canvasHeight: 240,
+      backgroundColor: "rgb(255,255,255)",
+    };
+  }
 
-	constructor() {
-		this.signaturePadOptions = {
-			minWidth: 2,
-			canvasWidth: 800,
-			canvasHeight: 240,
-			backgroundColor:'rgb(255,255,255)'
-		}
-	}
+  ngOnInit() {}
 
-	ngOnInit() {
-	}
+  private onTouch: Function = () => {};
+  private disabled: boolean = false;
 
-	private onTouch: Function = () => {};
-	private disabled: boolean = false;
+  onChange(data) {}
 
-	onChange(data) {
-		
-	}
+  @Input() set canvasWidth(data: number) {
+    this.signaturePadOptions.canvasWidth = data;
+  }
 
-	@Input() set canvasWidth(data: number) {
-		this.signaturePadOptions.canvasWidth = data;
-	}
+  @Input() set canvasHeight(data: number) {
+    this.signaturePadOptions.canvasHeight = data;
+  }
 
-	@Input() set canvasHeight(data: number) {
-		this.signaturePadOptions.canvasHeight = data;
-	}
+  @Input() set backgroundColor(data: string) {
+    this.signaturePadOptions.backgroundColor = data;
+  }
 
-	@Input() set backgroundColor(data: string) {
-		this.signaturePadOptions.backgroundColor = data;
-	}
+  // Allow Angular to set the value on the component
+  writeValue(value): void {
+    this.onChange(value);
+  }
 
-	// Allow Angular to set the value on the component
-	writeValue(value): void {
-		this.onChange(value)
-		
-	}
+  // Save a reference to the change function passed to us by
+  // the Angular form control
+  registerOnChange(fn): void {
+    this.onChange = fn;
+  }
 
-	// Save a reference to the change function passed to us by 
-	// the Angular form control
-	registerOnChange(fn): void {
-		this.onChange = fn;
-		
-	}
+  // Save a reference to the touched function passed to us by
+  // the Angular form control
+  registerOnTouched(fn): void {
+    this.onTouch = fn;
+  }
 
-	// Save a reference to the touched function passed to us by 
-	// the Angular form control
-	registerOnTouched(fn): void {
-		this.onTouch = fn;
-		
-	}
+  // Allow the Angular form control to disable this input
+  setDisabledState(disabled: boolean): void {
+    this.disabled = disabled;
+  }
 
-	// Allow the Angular form control to disable this input
-	setDisabledState(disabled: boolean): void {
-		this.disabled = disabled;
-		
-	}
+  canvasResize() {
+    let canvas = document.querySelector("canvas");
+    this.signaturePad.set("minWidth", 1);
+  }
 
-	canvasResize() {
-		let canvas = document.querySelector('canvas');
-		this.signaturePad.set('minWidth', 1);
-	}
+  ngAfterViewInit() {
+    this.signaturePad.clear();
+    this.canvasResize();
+  }
 
-	ngAfterViewInit() {
-		this.signaturePad.clear();
-		this.canvasResize();
-	}
+  drawStart() {}
 
-	drawStart(){
+  drawComplete() {
+    this.signatureImage = this.signaturePad.toDataURL("image/jpeg", 0.5);
+    this.writeValue(this.signatureImage);
+  }
 
-	}
-
-	drawComplete() {
-		this.signatureImage = this.signaturePad.toDataURL('image/jpeg', 0.5);
-		this.writeValue(this.signatureImage);
-	}
-
-	drawClear() {
-		this.signaturePad.clear();
-		this.signatureImage = null;
-		this.writeValue(this.signatureImage);
-	}
+  drawClear() {
+    this.signaturePad.clear();
+    this.signatureImage = null;
+    this.writeValue(this.signatureImage);
+  }
 }
