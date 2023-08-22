@@ -1,15 +1,16 @@
 # Ionic Signature Pad
 This is an ionic 4 plugin to input signature based on [wulfsolter](https://github.com/wulfsolter/angular2-signaturepad.git) repository.
-It's HTML5 canvas based and uses variable width Bézier curve interpolation based on Smoother Signatures post by Square. It works in all modern desktop and mobile browsers and doesn't depend on any external libraries.
 ![Example](https://f.cloud.github.com/assets/9873/268046/9ced3454-8efc-11e2-816e-a9b170a51004.png)
 # Disclaimer
-This project was tested in ionic 4.0.0-beta.15 for my personal purposes
-
+I made this changes to fix the dependencies problems I had while upgrading to api 33.
+This is a situational hotfix used in a personal project.
+!! I won't provide any help/support. !!
+used node v16.20.1
 ## How to use
 
 1. Install the plugin
 ```
-npm install ionicsignaturepad
+npm install --save https://github.com/bigimattia/ionic-signature-pad.git
 ```
 
 2. Import and add in app.module.ts
