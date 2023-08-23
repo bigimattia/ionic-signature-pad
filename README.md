@@ -4,8 +4,13 @@ This is an ionic 4 plugin to input signature based on [wulfsolter](https://githu
 # Disclaimer
 I made this changes to fix the dependencies problems I had while upgrading to api 33.
 This is a situational hotfix used in a personal project.
+
 !! I won't provide any help/support. !!
-used node v16.20.1
+
+used: node v16.16.1
+
+remember to add to your project <code>package.json</code> the following dep: <code>"angular2-signaturepad": "^3.0.4",</code>
+
 ## How to use
 
 1. Install the plugin
